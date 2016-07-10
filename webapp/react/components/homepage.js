@@ -34,6 +34,12 @@ class Homepage extends Component {
                      clearSuggestions = {this.props.clearSuggestions}
           />
         </div>
+        <div>
+          <h2>Company list</h2>
+          <div>
+            List goes here
+          </div>
+        </div>
       </form>
 
     );
