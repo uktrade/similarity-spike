@@ -1,0 +1,10 @@
+requests
+lxml
+numpy
+scipy
+nltk
+sklearn
+setuptools
+bs4
+cssselect
+flask
