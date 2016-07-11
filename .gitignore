@@ -1,2 +1,10 @@
 .cache
 *.pyc
+env
+styles.css
+styles.css.map
+.DS_Store
+node_modules/
+/.tmp
+/.sass-cache
+/.cache
