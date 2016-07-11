@@ -30,7 +30,7 @@ export default class SearchBar extends Component {
     this.props.clearSuggestions();
   };
 
-  hideLabel = () => {
+  hideLabel = (event) => {
     this.setState({
       value: this.state.value,
       selectedSuggestion: this.state.selectedSuggestion,
