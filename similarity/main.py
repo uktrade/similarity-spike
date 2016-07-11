@@ -36,4 +36,6 @@ def dress_up(scores, n=10):
     ]
 
 def main(name):
+    if name == 'l':
+        return list(map(print, sorted(cos.keys())))
     return(dress_up(cache.fetch(cos[name], [desc for _, desc, _ in opps])))
