@@ -13,7 +13,7 @@ const webpackConfig = require('./webpack.config.js');
 
 const projectDir = path.resolve(__dirname, './webapp');
 const sourceStyles = `${projectDir}/sass`;
-const outputStyles = `${projectDir}/static/css`;
+const outputStyles = `${projectDir}/static/stylesheets`;
 const sourceJS = `${projectDir}/react`;
 
 
