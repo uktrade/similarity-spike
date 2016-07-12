@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 export const GET_OPPORTUNITIES = 'GET_OPPORTUNITIES';
-export const GET_SUGGESTIONS = 'GET_SUGGESTIONS';
 export const GET_COMPANY = 'GET_COMPANY';
+export const CHANGE_TERM = 'CHANGE_TERM';
 
 let cos = [];
 axios.get('/cos').then((response) => {
@@ -39,27 +39,16 @@ export function getOpportunities(company) {
   });
 }
 
-export function clearSuggestions() {
-    return ({
-    type: GET_SUGGESTIONS,
-    payload: { term: '', suggestions: [] }
+export function setTerm(term) {
+
+  let companies = cos.filter((item) => {
+    let itemName = item.name.toLocaleLowerCase();
+    return itemName.indexOf(term.toLocaleLowerCase()) !== -1;
   });
-}
 
-export function getSuggestions(term) {
-
-  let suggestions = [];
-
-  if (term.length > 2) {
-    suggestions = cos.filter((item) => {
-      let itemName = item.name.toLocaleLowerCase();
-      return itemName.indexOf(term.toLocaleLowerCase()) !== -1;
-    });
-  }
 
   return ({
-    type: GET_SUGGESTIONS,
-    payload: { term, suggestions }
+    type: CHANGE_TERM,
+    payload: { term, companies }
   });
 }
-

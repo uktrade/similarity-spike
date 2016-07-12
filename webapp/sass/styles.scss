@@ -2,10 +2,8 @@ $images-dir: '/images/';
 @import 'govstrap';
 @import 'homepage';
 @import 'opportunities';
+@import 'searchbar';
 
-body {
-  font-family: 'Roboto', sans-serif;
-}
 
 #main {
   min-height: 500px;
@@ -23,4 +21,11 @@ body {
     position: absolute;
   }
 
+}
+
+.result-summary {
+  padding: 10px 0;
+  border-top: 1px solid $border-colour;
+  border-bottom: 1px solid $border-colour;
+  margin-bottom: 30px;
 }

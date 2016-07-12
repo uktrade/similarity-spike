@@ -1,4 +1,3 @@
-
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { fetchPost, deletePost } from '../actions/index';
@@ -19,6 +18,8 @@ class Opportunities extends Component {
   }
 
   componentWillMount() {
+    console.log(this.props.params.name);
+
     this.props.getOpportunities(this.props.params.name);
     this.props.getCompany(this.props.params.name);
   }
