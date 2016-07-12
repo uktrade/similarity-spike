@@ -18,10 +18,8 @@ class Opportunities extends Component {
   }
 
   componentWillMount() {
-    console.log(this.props.params.name);
-
-    this.props.getOpportunities(this.props.params.name);
     this.props.getCompany(this.props.params.name);
+    this.props.getOpportunities(this.props.params.name);
   }
 
   selectOpportunity = (index) => {
@@ -32,6 +30,10 @@ class Opportunities extends Component {
 
     const currentIndex = this.state.currentDetailIndex;
     const selectOpportunity = this.selectOpportunity;
+
+    if (opportunities.length === 0) {
+      return <div>Loading...</div>;
+    }
 
     return opportunities.map((opportunity, index) => {
 
@@ -64,7 +66,7 @@ class Opportunities extends Component {
   render() {
     const { opportunities, company } = this.props;
 
-    if (!opportunities || opportunities.length === 0 || !company) {
+    if (!company) {
       return <div>Loading...</div>;
     }
 
@@ -90,10 +92,12 @@ class Opportunities extends Component {
             </ul>
           </div>
           <div className="column-one-half column-one-half--full">
+            { currentOpp &&
             <div
               className="opportunity-detail"
               dangerouslySetInnerHTML={ createDetailMarkup() }
             />
+            }
           </div>
         </div>
       </div>

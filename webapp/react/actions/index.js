@@ -30,13 +30,22 @@ export function getCompany(name) {
 }
 
 export function getOpportunities(company) {
-  return ({
-    type: GET_OPPORTUNITIES,
-    payload: axios.post('/opps', {
-      n: 5,
-      name: company
-    })
-  });
+  return function(dispatch) {
+    dispatch({
+      type: GET_OPPORTUNITIES,
+      payload: {
+        data: []
+      }
+    });
+
+    dispatch({
+      type: GET_OPPORTUNITIES,
+      payload: axios.post('/opps', {
+        n: 5,
+        name: company
+      })
+    });
+  }
 }
 
 export function setTerm(term) {
