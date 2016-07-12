@@ -2,22 +2,19 @@
 import json
 
 import flask
-app = flask.Flask(__name__, static_url_path='')
-
+from flask import render_template
 from cache import _unpickle
 import similarity
+
+app = flask.Flask(__name__, static_url_path='')
+
 
 cos = _unpickle('ukl.pickle')
 cos.update(_unpickle('bduk.pickle'))
 
 @app.route("/")
 def index():
-    return app.send_static_file('index.html')
-
-
-@app.route("/opportunities/<name>")
-def opportunities(name):
-    return app.send_static_file('index.html')
+    return render_template('index.html')
 
 
 @app.route("/cos")

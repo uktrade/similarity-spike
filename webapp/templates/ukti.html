@@ -1,0 +1,27 @@
+{% extends "govuk_template.html" %}
+
+{% set global_header_text="Similarity" %}
+{% set homepage_url = "/" %}
+{% set logo_link_title = "Go to homepage" %}
+
+
+{% block head %}
+  <link href="/stylesheets/fonts.css" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/govuk-template.css" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/styles.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+
+  <main id="content" role="main">
+    <div class="phase-banner-alpha">
+      <p>
+        <strong class="phase-tag">ALPHA</strong>
+        <span>This is a new service – your <a href="#">feedback</a> will help us to improve it.</span>
+      </p>
+    </div>
+    <div class="container">
+      {% block main %}{% endblock %}
+    </div>
+  </main>
+{% endblock %}

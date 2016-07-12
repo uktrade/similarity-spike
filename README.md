@@ -1,8 +1,6 @@
 ```
-pip install -r requirements.txt
-pushd webapp
 npm install
 npm run build
-popd
+pip install -r requirements.txt
 python main.py webapp.server
 ```

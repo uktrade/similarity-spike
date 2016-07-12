@@ -5,10 +5,10 @@ module.exports = {
   devtool: prod ? 'hidden-source-map' : 'cheap-module-source-map',
 
   entry: {
-    app: `./react/app.js`
+    app: `./webapp/react/app.js`
   },
   output: {
-    path: './static/js',
+    path: './webapp/static/js',
     filename: '[name].bundle.js'
   },
   module: {
