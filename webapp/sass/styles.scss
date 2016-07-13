@@ -31,6 +31,8 @@ $images-dir: '/images/';
   margin-bottom: 30px;
 }
 
+
+
 .company-list .results-list__result {
 
   padding: 5px 2px;
@@ -51,6 +53,8 @@ $images-dir: '/images/';
   border-right: 1px solid $grey-1;
   display: inline-block;
   float: left;
+    height: 100vh;
+  overflow-y: scroll;
 }
 
 .current-company {
