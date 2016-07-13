@@ -7,6 +7,7 @@ $images-dir: '/images/';
 
 #main {
   min-height: 500px;
+  margin-top: 20px;
 }
 
 .back-link {
@@ -28,4 +29,54 @@ $images-dir: '/images/';
   border-top: 1px solid $border-colour;
   border-bottom: 1px solid $border-colour;
   margin-bottom: 30px;
+}
+
+.company-list .results-list__result {
+
+  padding: 5px 2px;
+  cursor: pointer;
+
+  &:hover {
+    outline: 2px $orange-50;
+  }
+
+  &:nth-child(odd) {
+    background: #efefef;
+  }
+}
+
+.col {
+  box-sizing: border-box;
+  width: 33%;
+  border-right: 1px solid $grey-1;
+  display: inline-block;
+  float: left;
+}
+
+.current-company {
+  padding: 5px;
+  border-bottom: 1px solid $border-colour;
+  background: #efefef;
+
+  h3 {
+    margin-top: 0;
+  }
+}
+
+.opportunities {
+
+  .opportunity {
+
+    border-bottom: 1px;
+    cursor: pointer;
+
+    &:nth-child(odd) {
+      background: #efefef;
+    }
+
+    &:hover {
+      outline: 2px $orange-50;
+    }
+  }
+
 }

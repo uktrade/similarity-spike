@@ -1,63 +1,54 @@
 import axios from 'axios';
 
 export const GET_OPPORTUNITIES = 'GET_OPPORTUNITIES';
+export const GET_OPPORTUNITY = 'GET_OPPORTUNITY';
 export const GET_COMPANY = 'GET_COMPANY';
-export const CHANGE_TERM = 'CHANGE_TERM';
+export const GET_COMPANIES = 'GET_COMPANIES';
 
-let cos = [];
-axios.get('/cos').then((response) => {
-  cos = response.data;
-});
+let companies = [];
 
-export function getCompany(name) {
-  let lowerName = name.toLocaleLowerCase();
-
-  let companies = cos.filter((item) => {
-    return item.name.toLocaleLowerCase().indexOf(lowerName) !== -1;
-  });
-
-  if (companies.length > 0) {
-    return {
-      type: GET_COMPANY,
-      payload: companies[0]
-    }
-  }
-
-  return {
-    type: GET_COMPANY,
-    payload: null
+export function getCompanies() {
+  return function(dispatch) {
+    axios.get('/cos')
+      .then((response) => {
+        companies = response.data;
+        dispatch({
+          type: GET_COMPANIES,
+          payload: response.data
+        });
+      });
   };
 }
 
-export function getOpportunities(company) {
+export function setCurrentCompany(company) {
   return function(dispatch) {
     dispatch({
       type: GET_OPPORTUNITIES,
-      payload: {
-        data: []
-      }
+      payload: []
     });
 
     dispatch({
-      type: GET_OPPORTUNITIES,
-      payload: axios.post('/opps', {
-        n: 5,
-        name: company
-      })
+      type: GET_COMPANY,
+      payload: company
     });
-  }
+
+    axios.post('/opps', {
+      n: 5,
+      name: company.name
+    })
+    .then((response) => {
+      dispatch({
+        type: GET_OPPORTUNITIES,
+        payload: response.data
+      });
+    });
+  };
 }
 
-export function setTerm(term) {
 
-  let companies = cos.filter((item) => {
-    let itemName = item.name.toLocaleLowerCase();
-    return itemName.indexOf(term.toLocaleLowerCase()) !== -1;
-  });
-
-
-  return ({
-    type: CHANGE_TERM,
-    payload: { term, companies }
-  });
+export function setCurrentOpportunity(opportunity) {
+  return {
+    type: GET_OPPORTUNITY,
+    payload: opportunity
+  }
 }

@@ -1,15 +1,11 @@
 import {combineReducers} from 'redux';
-import CompanyReducer from './companyreducer';
-import SearchResultsReducer from './searchresultsreducer';
 import OpportunitiesReducer from './opportunitiesreducer';
-import SearchTermReducer from './searchtermreducer';
+import CompaniesReducer from './companiesreducer';
 
 
 const rootReducer = combineReducers({
-  searchTerm: SearchTermReducer,
-  searchResults: SearchResultsReducer,
-  company: CompanyReducer,
-  opportunities: OpportunitiesReducer
+  opportunities: OpportunitiesReducer,
+  companies: CompaniesReducer
 });
 
 export default rootReducer;
