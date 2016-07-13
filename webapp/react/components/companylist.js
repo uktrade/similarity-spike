@@ -31,7 +31,7 @@ class CompanyList extends Component {
     let oppList  = this.props.opportunities.all.map((opportunity, key) => {
       return (
         <div key={key} className="opportunity" onClick={() => this.props.setCurrentOpportunity(opportunity)}>
-          {opportunity.title}
+          {opportunity.name}
         </div>
       );
     });
