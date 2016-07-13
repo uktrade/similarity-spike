@@ -47,6 +47,9 @@ export function setCurrentCompany(company) {
 
 
 export function setCurrentOpportunity(opportunity) {
+
+  console.log('set current op', opportunity);
+  
   return {
     type: GET_OPPORTUNITY,
     payload: opportunity
