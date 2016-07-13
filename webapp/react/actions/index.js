@@ -32,9 +32,8 @@ export function setCurrentCompany(company) {
       payload: company
     });
 
-    axios.post('/opps', {
-      n: 5,
-      name: company.name
+    axios.post('/co-opps', {
+      co: company.desc
     })
     .then((response) => {
       dispatch({
