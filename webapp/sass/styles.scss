@@ -83,4 +83,7 @@ $images-dir: '/images/';
 
 .right {
   text-align: right;
+  float: right;
+  overflow: hidden;
+  margin: 10px;
 }
