@@ -1,0 +1,45 @@
+.similarity-searchbar {
+
+  margin: 40px 0;
+
+  .similarity-searchbar__input-wrapper {
+    position: relative;
+  }
+
+  .similarity-searchbar__label {
+    @include core-19();
+    display: block;
+    color: $secondary-text-colour;
+  }
+
+  .similarity-searchbar__input {
+    box-sizing: border-box;
+    font-size: em(19);
+    width: 100%;
+    padding: 6px 15px;
+    margin: 0;
+    z-index: 3;
+    background: transparent;
+    position: relative;
+    border-right: 0;
+    line-height: 34px;
+    border-radius: 0;
+    -webkit-appearance: none;
+    text-overflow: ellipsis;
+  }
+
+  .similarity-searchbar__submit {
+    position: absolute;
+    z-index: 4;
+    right: 0;
+    top: 0;
+    width: 50px;
+    height: 100%;
+    border: 0;
+    text-indent: -5000px;
+    color: $white;
+    cursor: pointer;
+    background: $govuk-blue url('/images/search-button.png') no-repeat 8px 50%;
+    border-radius: 0;
+  }
+}

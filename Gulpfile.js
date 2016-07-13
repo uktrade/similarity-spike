@@ -15,7 +15,8 @@ const projectDir = path.resolve(__dirname, './webapp');
 const sourceStyles = `${projectDir}/sass`;
 const outputStyles = `${projectDir}/static/stylesheets`;
 const sourceJS = `${projectDir}/react`;
-
+const outputJS = `${projectDir}/static/js`;
+const port = 5000;
 
 const SASS_PATHS = [
   './node_modules/govuk-elements-sass/public/sass',
@@ -52,8 +53,22 @@ gulp.task('webpack', done => {
   });
 });
 
+gulp.task('browserSync', (done) => {
+  const browserSync = require('browser-sync').create('bs-proxy');
+
+  browserSync.init(null, {
+    proxy: `http://localhost:${port}`,
+    files: [`${outputStyles}/*.css`, `${outputJS}/*.js`],
+    reloadDelay: 1000,
+    port: 5001,
+    open: false
+  });
+  done();
+});
+
+
 gulp.task('watch', (done) => {
-  gulpSequence('build', 'serve', 'browserSync', () => {
+  gulpSequence('build', 'browserSync', () => {
     gulp.watch(`${sourceJS}/**/*.js`, ['webpack']);
     gulp.watch(`${sourceStyles}/**/*.scss`, ['css']);
     done();

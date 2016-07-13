@@ -1,13 +1,11 @@
 import {combineReducers} from 'redux';
-import CompanyReducer from './companyreducer';
-import SuggestionsReducer from './suggestionsreducer';
 import OpportunitiesReducer from './opportunitiesreducer';
+import CompaniesReducer from './companiesreducer';
 
 
 const rootReducer = combineReducers({
-  company: CompanyReducer,
-  suggestions: SuggestionsReducer,
-  opportunities: OpportunitiesReducer
+  opportunities: OpportunitiesReducer,
+  companies: CompaniesReducer
 });
 
 export default rootReducer;
