@@ -21,7 +21,7 @@ class CompanyList extends Component {
     const companies = this.props.companies.all;
 
     if (companies.length === 0) {
-      return (<div>...Loading</div>);
+      return (<p>...Loading</p>);
     }
 
     let companiesList = companies.map((company, index) => {
@@ -31,29 +31,26 @@ class CompanyList extends Component {
       );
     });
 
-    let oppList  = this.props.opportunities.all.map((opportunity, key) => {
+    let oppList;
+    if (this.props.opportunities.all.length === 0) {
+      oppList = <p>...Loading</p>;
+    } else {
+      oppList = this.props.opportunities.all.map((opportunity, key) => {
+        let scoreColour = getScoreColour(opportunity);
+        let style = {
+          borderLeftColor: scoreColour,
+          borderLeftWidth: '5px',
+          borderLeftStyle: 'solid'
+        };
 
-       let scoreColour = getScoreColour(opportunity);
-       let style = {
-         borderLeftColor: scoreColour,
-         borderLeftWidth: '5px',
-         borderLeftStyle: 'solid'
-       };
-
-      let classes = 'opportunity';
-
-      /*
-      if (index === currentIndex) {
-        classes += ' opportunity--selected';
-      }
-      */
-
-      return (
-        <div key={key} className={classes} style={style} onClick={() => this.props.setCurrentOpportunity(opportunity)}>
-          {opportunity.name}
-        </div>
-      );
-    });
+        return (
+          <div key={key} className='opportunity' style={style}
+               onClick={() => this.props.setCurrentOpportunity(opportunity)}>
+            {opportunity.name}
+          </div>
+        );
+      });
+    }
 
     let style;
 
@@ -72,10 +69,6 @@ class CompanyList extends Component {
       }
     }
 
-
-
-
-
     return (
       <div>
         <div className="col">
@@ -83,17 +76,15 @@ class CompanyList extends Component {
         </div>
         <div className="col">
           { this.props.companies.currentCompany &&
-            <div className="current-company">
-              <h3 className="heading-medium">{ this.props.companies.currentCompany.name }</h3>
-              <p>{ this.props.companies.currentCompany.desc }</p>
+            <div>
+              <div className="current-company">
+                <h3 className="heading-medium">{ this.props.companies.currentCompany.name }</h3>
+                <p>{ this.props.companies.currentCompany.desc }</p>
+              </div>
+              <h3 className="heading-small">Opportunities</h3>
+              <div className="opportunities">{ oppList }</div>
             </div>
           }
-
-          { (this.props.opportunities.all.length > 0) &&
-            <h3 className="heading-small">Opportunities</h3>
-          }
-          <div className="opportunities">{ oppList }</div>
-
         </div>
         <div className="col">
 

@@ -58,7 +58,6 @@ $images-dir: '/images/';
 }
 
 .current-company {
-  padding: 5px;
   border-bottom: 1px solid $border-colour;
   background: #efefef;
 
@@ -90,4 +89,9 @@ $images-dir: '/images/';
   float: right;
   overflow: hidden;
   margin: 10px;
+}
+
+.col h3,
+.col p {
+  padding: 5px;
 }
