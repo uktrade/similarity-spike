@@ -7,6 +7,9 @@ function createDetailMarkup(opp) {
   return { __html: opp.replace(/(?:\r\n|\r|\n)/g, '<br /><br />') };
 }
 
+function getScoreColour (opp) {
+  return "hsl(" + opp.score * 500 + ", 100%, 50%)";
+}
 
 class CompanyList extends Component {
 
@@ -29,15 +32,49 @@ class CompanyList extends Component {
     });
 
     let oppList  = this.props.opportunities.all.map((opportunity, key) => {
+
+       let scoreColour = getScoreColour(opportunity);
+       let style = {
+         borderLeftColor: scoreColour,
+         borderLeftWidth: '5px',
+         borderLeftStyle: 'solid'
+       };
+
+      let classes = 'opportunity';
+
+      /*
+      if (index === currentIndex) {
+        classes += ' opportunity--selected';
+      }
+      */
+
       return (
-        <div key={key} className="opportunity" onClick={() => this.props.setCurrentOpportunity(opportunity)}>
+        <div key={key} className={classes} style={style} onClick={() => this.props.setCurrentOpportunity(opportunity)}>
           {opportunity.name}
         </div>
       );
     });
 
+    let style;
 
-    console.log(this.props.opportunities);
+    if (this.props.opportunities.currentOpportunity) {
+      let scoreColour = getScoreColour(this.props.opportunities.currentOpportunity);
+      style = {
+        background: scoreColour,
+        width: '60px',
+        height: '60px',
+        borderRadius: '60px',
+        textAlign: 'center',
+        display: 'table-cell',
+        overflow: 'hidden',
+        verticalAlign: 'middle',
+        clear: 'both'
+      }
+    }
+
+
+
+
 
     return (
       <div>
@@ -61,10 +98,15 @@ class CompanyList extends Component {
         <div className="col">
 
           { (this.props.opportunities.currentOpportunity) &&
-            <div
-              className="opportunity-detail"
-              dangerouslySetInnerHTML={ createDetailMarkup(this.props.opportunities.currentOpportunity.desc) }
-            />
+            <div>
+              <div className="right">
+                <div className="score" style={style}>{this.props.opportunities.currentOpportunity.score.toFixed(2)}</div>
+              </div>
+              <div
+                className="opportunity-detail"
+                dangerouslySetInnerHTML={ createDetailMarkup(this.props.opportunities.currentOpportunity.desc) }
+              />
+            </div>
           }
 
         </div>
