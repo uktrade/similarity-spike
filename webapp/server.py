@@ -1,5 +1,6 @@
 # NOTE: Run this app using ../run-webapp.py otherwise imports won’t work
 import json
+import os
 
 import flask
 from flask import render_template
@@ -42,4 +43,4 @@ def opp_cos_route():
 
 
 def main():
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
