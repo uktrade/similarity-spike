@@ -1,17 +1,11 @@
-.opportunity {
-  padding: 10px;
-  border-bottom: 1px solid #222;
-}
+.opportunity--detail {
 
-.opportunity--selected {
-  background: #eee;
-}
+  position: relative;
 
-.opportunity-detail {
-  padding: 10px;
-  background: #eee;
-}
+  .badge {
+    top: 5px;
+    right: 20px;
+    position: absolute;
+  }
 
-.column-one-half.column-one-half--full {
-  padding: 0;
 }

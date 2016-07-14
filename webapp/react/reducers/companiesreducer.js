@@ -21,3 +21,5 @@ export default function(state = { all: [], currentCompany:null }, action) {
 
   return state;
 }
+
+// when we change company, get it's opportunities 
