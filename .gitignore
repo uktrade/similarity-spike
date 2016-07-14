@@ -1,4 +1,3 @@
-.cache
 *.pyc
 env
 .DS_Store
