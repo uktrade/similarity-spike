@@ -1,1 +1,1 @@
-web: python /usr/src/app/main.py webapp.server
+web: python /app/main.py webapp.server
