@@ -1,36 +1,13 @@
 $images-dir: '/images/';
 @import 'govstrap';
-@import 'homepage';
+@import 'columns';
+@import 'badge';
 @import 'opportunities';
-@import 'searchbar';
 
 
 #main {
-  min-height: 500px;
   margin-top: 20px;
 }
-
-.back-link {
-  display: inline-block;
-  padding-left: 30px;
-  position: relative;
-  margin: 20px 0 0;
-
-  &::before {
-    content: '<';
-    left: 0;
-    position: absolute;
-  }
-
-}
-
-.result-summary {
-  padding: 10px 0;
-  border-top: 1px solid $border-colour;
-  border-bottom: 1px solid $border-colour;
-  margin-bottom: 30px;
-}
-
 
 
 .company-list .results-list__result {
@@ -53,7 +30,7 @@ $images-dir: '/images/';
   border-right: 1px solid $grey-1;
   display: inline-block;
   float: left;
-    height: 82vh;
+  height: 82vh;
   overflow-y: scroll;
 }
 
@@ -85,12 +62,10 @@ $images-dir: '/images/';
 }
 
 .right {
-  text-align: right;
-  float: right;
-  overflow: hidden;
-  margin: 10px;
+
 }
 
+.col h2,
 .col h3,
 .col p {
   padding: 5px;

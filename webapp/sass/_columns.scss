@@ -1,0 +1,58 @@
+.col {
+  box-sizing: border-box;
+  width: 33%;
+  border-right: 1px solid $grey-1;
+  display: inline-block;
+  float: left;
+  height: 82vh;
+  overflow-y: scroll;
+
+  h1, h2, h3, h4 {
+    margin-top: 0;
+  }
+
+
+  .col__section--dark {
+    background: #efefef;
+  }
+}
+
+.stripey-col-list {
+
+  .stripey-col-list__item {
+    padding: 0;
+    cursor: pointer;
+
+    a {
+      display: block;
+      padding: 5px;
+      margin: 2px;
+      &:hover {
+        outline: 2px solid $focus-colour;
+        color: $text-colour;
+      }
+    }
+
+
+
+    &:nth-child(odd) {
+      background: #efefef;
+    }
+  }
+
+  .stripey-col-list__item--active {
+    a {
+      background-color: $focus-colour;
+    }
+  }
+
+  .stripey-col-list__item--detail {
+    border-bottom: 1px solid $border-colour;
+    background: #efefef;
+  }
+
+
+
+}
+
+

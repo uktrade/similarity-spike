@@ -2125,90 +2125,79 @@ table tr:nth-child(even) td {
   .js-radiohide-content.error, .js-radiohide-content.incomplete {
     border-left: 5px solid #b10e1e; }
 
-.col {
-  box-sizing: border-box;
-  width: 33%;
-  border-right: 1px solid #6f777b;
-  display: inline-block;
-  float: left;
-  height: 82vh;
-  overflow-y: scroll; }
-  .col h1, .col h2, .col h3, .col h4 {
-    margin-top: 0; }
-  .col .col__section--dark {
-    background: #efefef; }
+.searchbar__suggestions .suggestion {
+  padding: 10px; }
+  .searchbar__suggestions .suggestion.suggestion--selected, .searchbar__suggestions .suggestion:hover {
+    background: #d5e8f3; }
 
-.stripey-col-list .stripey-col-list__item {
-  padding: 0;
-  cursor: pointer; }
-  .stripey-col-list .stripey-col-list__item a {
-    display: block;
-    padding: 5px;
-    margin: 2px; }
-    .stripey-col-list .stripey-col-list__item a:hover {
-      outline: 2px solid #ffbf47;
-      color: #0b0c0c; }
-  .stripey-col-list .stripey-col-list__item:nth-child(odd) {
-    background: #efefef; }
+body .searchbar .searchbar__submit {
+  height: 46px;
+  top: 2px; }
 
-.stripey-col-list .stripey-col-list__item--active a {
-  background-color: #ffbf47; }
+.opportunity {
+  padding: 10px;
+  border-bottom: 1px solid #222; }
 
-.stripey-col-list .stripey-col-list__item--detail {
-  border-bottom: 1px solid #bfc1c3;
-  background: #efefef; }
+.opportunity--selected {
+  background: #eee; }
 
-.badge {
-  width: 50px;
-  height: 50px;
+.opportunity-detail {
+  padding: 10px;
+  background: #eee; }
+
+.column-one-half.column-one-half--full {
+  padding: 0; }
+
+.similarity-searchbar .similarity-searchbar__label {
+  display: block;
+  color: #6f777b;
   line-height: 50px;
-  border-radius: 25px;
-  text-align: center; }
+  text-indent: 15px;
+  overflow: hidden; }
 
-.opportunity--detail {
-  position: relative; }
-  .opportunity--detail .badge {
-    top: 5px;
-    right: 20px;
-    position: absolute; }
+.similarity-searchbar .similarity-searchbar__input {
+  box-sizing: border-box;
+  font-size: 1em;
+  width: 100%;
+  padding: 6px 15px;
+  margin: 0;
+  z-index: 3;
+  background: transparent;
+  position: relative;
+  border-right: 0;
+  line-height: 34px;
+  border-radius: 0;
+  -webkit-appearance: none;
+  text-overflow: ellipsis; }
+
+.similarity-searchbar .similarity-searchbar__submit {
+  position: absolute;
+  z-index: 4;
+  right: 0;
+  top: 0;
+  width: 50px;
+  height: 100%;
+  border: 0;
+  text-indent: -5000px;
+  color: #fff;
+  cursor: pointer;
+  background: #005ea5 url("/images/search-button.png") no-repeat 8px 50%;
+  border-radius: 0; }
+
+body {
+  font-family: 'Roboto', sans-serif; }
 
 #main {
-  margin-top: 20px; }
+  min-height: 500px; }
 
-.company-list .results-list__result {
-  padding: 5px 2px;
-  cursor: pointer; }
-  .company-list .results-list__result:hover {
-    outline: 2px #fabb96; }
-  .company-list .results-list__result:nth-child(odd) {
-    background: #efefef; }
-
-.col {
-  box-sizing: border-box;
-  width: 33%;
-  border-right: 1px solid #6f777b;
+.back-link {
   display: inline-block;
-  float: left;
-  height: 82vh;
-  overflow-y: scroll; }
-
-.current-company {
-  border-bottom: 1px solid #bfc1c3;
-  background: #efefef; }
-  .current-company h3 {
-    margin-top: 0; }
-
-.opportunities .opportunity {
-  border-bottom: 1px;
-  cursor: pointer; }
-  .opportunities .opportunity:nth-child(odd) {
-    background: #efefef; }
-  .opportunities .opportunity:hover {
-    outline: 2px #fabb96; }
-
-.col h2,
-.col h3,
-.col p {
-  padding: 5px; }
+  padding-left: 30px;
+  position: relative;
+  margin: 20px 0 0; }
+  .back-link::before {
+    content: '<';
+    left: 0;
+    position: absolute; }
 
 /*# sourceMappingURL=styles.css.map */
