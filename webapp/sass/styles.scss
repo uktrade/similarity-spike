@@ -2,71 +2,7 @@ $images-dir: '/images/';
 @import 'govstrap';
 @import 'columns';
 @import 'badge';
-@import 'opportunities';
-
 
 #main {
   margin-top: 20px;
-}
-
-
-.company-list .results-list__result {
-
-  padding: 5px 2px;
-  cursor: pointer;
-
-  &:hover {
-    outline: 2px $orange-50;
-  }
-
-  &:nth-child(odd) {
-    background: #efefef;
-  }
-}
-
-.col {
-  box-sizing: border-box;
-  width: 33%;
-  border-right: 1px solid $grey-1;
-  display: inline-block;
-  float: left;
-  height: 82vh;
-  overflow-y: scroll;
-}
-
-.current-company {
-  border-bottom: 1px solid $border-colour;
-  background: #efefef;
-
-  h3 {
-    margin-top: 0;
-  }
-}
-
-.opportunities {
-
-  .opportunity {
-
-    border-bottom: 1px;
-    cursor: pointer;
-
-    &:nth-child(odd) {
-      background: #efefef;
-    }
-
-    &:hover {
-      outline: 2px $orange-50;
-    }
-  }
-
-}
-
-.right {
-
-}
-
-.col h2,
-.col h3,
-.col p {
-  padding: 5px;
 }

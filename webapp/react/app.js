@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import promise from 'redux-promise';
 import reducers from './reducers/index';
-import Scrape from './components/scrape';
+import routes from './routes';
 
 const createStoreWithMiddleware = applyMiddleware(promise, thunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
@@ -14,7 +14,7 @@ const store = createStoreWithMiddleware(reducers);
 
 render(
   <Provider store={store}>
-    <Scrape/>
+    <Router history={browserHistory} routes={routes} />
   </Provider>,
   document.querySelector('#main')
 );

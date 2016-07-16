@@ -70,9 +70,9 @@
 
 	var _index2 = _interopRequireDefault(_index);
 
-	var _scrape = __webpack_require__(285);
+	var _routes = __webpack_require__(266);
 
-	var _scrape2 = _interopRequireDefault(_scrape);
+	var _routes2 = _interopRequireDefault(_routes);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -82,7 +82,7 @@
 	(0, _reactDom.render)(_react2.default.createElement(
 	  _reactRedux.Provider,
 	  { store: store },
-	  _react2.default.createElement(_scrape2.default, null)
+	  _react2.default.createElement(_reactRouter.Router, { history: _reactRouter.browserHistory, routes: _routes2.default })
 		), document.querySelector('#main'));
 
 /***/ },
@@ -28957,7 +28957,7 @@
 
 	var _opportunitiesreducer2 = _interopRequireDefault(_opportunitiesreducer);
 
-	var _companiesreducer = __webpack_require__(284);
+	var _companiesreducer = __webpack_require__(265);
 
 	var _companiesreducer2 = _interopRequireDefault(_companiesreducer);
 
@@ -28983,26 +28983,49 @@
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	exports.default = function () {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? { all: [], currentOpportunity: null } : arguments[0];
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? { all: [], currentOpportunity: null, dummyOpps: dummyOpps } : arguments[0];
 	  var action = arguments[1];
 
 
 	  switch (action.type) {
-	    case _actions.GET_OPPORTUNITIES:
+	    case _actiontypes.GET_OPPORTUNITIES:
 	      return _extends({}, state, { all: action.payload });
-	    case _actions.GET_OPPORTUNITY:
+	    case _actiontypes.GET_OPPORTUNITY:
 	      return _extends({}, state, { currentOpportunity: action.payload });
-	    case _actions.GET_COMPANY:
-	      return { all: [], currentOpportunity: null };
 	  }
 
 	  return state;
 	};
 
-		var _actions = __webpack_require__(264);
+	var _actiontypes = __webpack_require__(264);
+
+	var dummyOpps = [{
+	  name: 'Accessories of all descriptions for coffee are required by expert coffee distributor',
+	  desc: "<p>Coffee and tea are a large part of Czech culture. One of the country's coffee and tea distributors is looking for coffee drinking accessories from the United Kingdom.</p>" + "<p>The accessories should make the coffee drinking experience more convenient and more enjoyable. Innovative contraptions and everyday necessities are welcome. Attractive products, giving a certain zest to the coffee drinking and production process will be well received, but also those of a bland and practical nature.</p>" + "<p>The distributor welcomes all ideas and is keen to see what the UK can offer in this area.</p>" + "<p>For more information register below</p>"
+	}, {
+	  name: 'A Polish wholesaler is looking for British suppliers of building equipment, tools and accessories',
+	  desc: "The company associates wholesalers and distributors across the country and is an expert in traditional trade. It specializes in building sector and offers a few thousands of building products, such as building chemicals, materials, tools and DIY goods. The scope of products is very wide, from low-cost goods available on a mass scale to high end products. They are looking for long-term cooperation and want to be an exclusive distributor for a British supplier of chemicals, tools, accessories and other equipment used in building sector."
+	}, {
+	  name: 'Invitation for bids for construction works on a hospital',
+	  desc: "The Government of Lebanon represented by the Council for Development and Reconstruction (CDR) invites sealed bids from eligible Bidders for the construction and completion of the following works:</p>" + "<p>Tyre Governmental Hospital - South Lebanon. " + "The time allocated for the total completion of the project shall be 24 months." + "The extend of the works shall include but not limited to:</p>" + "<ul><li>Architectural works</li>" + "<li>Structural works</li>" + "<li>Electrical works - Low and extra low voltage</li>" + "<li>Mechanical works- Drainage water supply, fire fighting, irrigation and medical gazes</li>" + "<li>Heating, ventilation and air conditioning: piping and ducting</li>" + "<p>Bidders may contact UKTI team in Lebanon below to have further information about the project."
+		}];
 
 /***/ },
 /* 264 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var GET_OPPORTUNITIES = exports.GET_OPPORTUNITIES = 'GET_OPPORTUNITIES';
+	var GET_OPPORTUNITY = exports.GET_OPPORTUNITY = 'GET_OPPORTUNITY';
+	var GET_COMPANY = exports.GET_COMPANY = 'GET_COMPANY';
+	var GET_COMPANIES = exports.GET_COMPANIES = 'GET_COMPANIES';
+
+/***/ },
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29010,21 +29033,245 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.GET_COMPANIES = exports.GET_COMPANY = exports.GET_OPPORTUNITY = exports.GET_OPPORTUNITIES = undefined;
-	exports.getCompanies = getCompanies;
-	exports.setCurrentCompany = setCurrentCompany;
-	exports.setCurrentOpportunity = setCurrentOpportunity;
 
-	var _axios = __webpack_require__(265);
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _axios2 = _interopRequireDefault(_axios);
+	exports.default = function () {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? { all: [], currentCompany: null } : arguments[0];
+	  var action = arguments[1];
+
+
+	  switch (action.type) {
+	    case _actiontypes.GET_COMPANIES:
+	      return _extends({}, state, { all: action.payload.sort(sortCompanies) });
+	    case _actiontypes.GET_COMPANY:
+	      return _extends({}, state, { currentCompany: action.payload });
+	  }
+
+	  return state;
+	};
+
+	var _actiontypes = __webpack_require__(264);
+
+	// when we change company, get it's opportunities
+
+
+	function sortCompanies(a, b) {
+	  var nameA = a.name.toLocaleLowerCase();
+	  var nameB = b.name.toLocaleLowerCase();
+
+	  if (nameA < nameB) return -1;
+	  if (nameA > nameB) return 1;
+	  return 0;
+	}
+
+/***/ },
+/* 266 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(172);
+
+	var _layout = __webpack_require__(267);
+
+	var _layout2 = _interopRequireDefault(_layout);
+
+	var _companylist = __webpack_require__(268);
+
+	var _companylist2 = _interopRequireDefault(_companylist);
+
+	var _opportunitylist = __webpack_require__(294);
+
+	var _opportunitylist2 = _interopRequireDefault(_opportunitylist);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var GET_OPPORTUNITIES = exports.GET_OPPORTUNITIES = 'GET_OPPORTUNITIES';
-	var GET_OPPORTUNITY = exports.GET_OPPORTUNITY = 'GET_OPPORTUNITY';
-	var GET_COMPANY = exports.GET_COMPANY = 'GET_COMPANY';
-	var GET_COMPANIES = exports.GET_COMPANIES = 'GET_COMPANIES';
+	exports.default = _react2.default.createElement(
+	  _reactRouter.Route,
+	  { path: '/', component: _layout2.default },
+	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _companylist2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'companies', component: _companylist2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'opportunities', component: _opportunitylist2.default })
+		);
+
+/***/ },
+/* 267 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(172);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Layout = function Layout(_ref) {
+	  var children = _ref.children;
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    children
+	  );
+	};
+
+	Layout.propTypes = {
+	  children: _react2.default.PropTypes.object
+	};
+
+		exports.default = Layout;
+
+/***/ },
+/* 268 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(234);
+
+	var _reactRouter = __webpack_require__(172);
+
+	var _companylistactions = __webpack_require__(269);
+
+	var _stripeylist = __webpack_require__(289);
+
+	var _company = __webpack_require__(291);
+
+	var _opportunity = __webpack_require__(293);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var CompanyList = function (_Component) {
+	  _inherits(CompanyList, _Component);
+
+	  function CompanyList() {
+	    _classCallCheck(this, CompanyList);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(CompanyList).apply(this, arguments));
+	  }
+
+	  _createClass(CompanyList, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.props.getCompanies();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col' },
+	          _react2.default.createElement(
+	            'h2',
+	            { className: 'heading-medium' },
+	            'Companies'
+	          ),
+	          _react2.default.createElement(_stripeylist.StripeyList, { items: this.props.companies.all, selectItem: this.props.setCurrentCompany })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col' },
+	          this.props.companies.currentCompany && _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'col__section col__section--dark' },
+	              _react2.default.createElement(_company.Company, { company: this.props.companies.currentCompany })
+	            ),
+	            _react2.default.createElement(
+	              'h3',
+	              { className: 'heading-small col__section col__section--heading' },
+	              'Opportunities'
+	            ),
+	            _react2.default.createElement(_stripeylist.StripeyList, {
+	              items: this.props.opportunities.all,
+	              selectItem: this.props.setCurrentOpportunity,
+	              cell: _stripeylist.ScoreCell
+	            })
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col' },
+	          this.props.opportunities.currentOpportunity && _react2.default.createElement(
+	            'div',
+	            { className: 'col__section col__section--dark' },
+	            _react2.default.createElement(_opportunity.Opportunity, { opportunity: this.props.opportunities.currentOpportunity })
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return CompanyList;
+	}(_react.Component);
+
+	function mapStateToProps(_ref) {
+	  var companies = _ref.companies;
+	  var opportunities = _ref.opportunities;
+
+	  return { companies: companies, opportunities: opportunities };
+	}
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, { getCompanies: _companylistactions.getCompanies, setCurrentCompany: _companylistactions.setCurrentCompany, setCurrentOpportunity: _companylistactions.setCurrentOpportunity })(CompanyList);
+
+/***/ },
+/* 269 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.getCompanies = getCompanies;
+	exports.setCurrentCompany = setCurrentCompany;
+	exports.setCurrentOpportunity = setCurrentOpportunity;
+	exports.getCompaniesForOpportunity = getCompaniesForOpportunity;
+
+	var _axios = __webpack_require__(270);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _actiontypes = __webpack_require__(264);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var companies = [];
 
@@ -29033,7 +29280,7 @@
 	    _axios2.default.get('/cos').then(function (response) {
 	      companies = response.data;
 	      dispatch({
-	        type: GET_COMPANIES,
+	        type: _actiontypes.GET_COMPANIES,
 	        payload: response.data
 	      });
 	    });
@@ -29043,12 +29290,17 @@
 	function setCurrentCompany(company) {
 	  return function (dispatch) {
 	    dispatch({
-	      type: GET_OPPORTUNITIES,
+	      type: _actiontypes.GET_OPPORTUNITIES,
 	      payload: []
 	    });
 
 	    dispatch({
-	      type: GET_COMPANY,
+	      type: _actiontypes.GET_OPPORTUNITY,
+	      payload: null
+	    });
+
+	    dispatch({
+	      type: _actiontypes.GET_COMPANY,
 	      payload: company
 	    });
 
@@ -29056,7 +29308,7 @@
 	      co: company.desc
 	    }).then(function (response) {
 	      dispatch({
-	        type: GET_OPPORTUNITIES,
+	        type: _actiontypes.GET_OPPORTUNITIES,
 	        payload: response.data
 	      });
 	    });
@@ -29065,31 +29317,50 @@
 
 	function setCurrentOpportunity(opportunity) {
 	  return {
-	    type: GET_OPPORTUNITY,
+	    type: _actiontypes.GET_OPPORTUNITY,
 	    payload: opportunity
+	  };
+	}
+
+	function getCompaniesForOpportunity(opportunity) {
+
+	  return function (dispatch) {
+	    dispatch({
+	      type: _actiontypes.GET_OPPORTUNITY,
+	      payload: opportunity
+	    });
+
+	    _axios2.default.post('/opp-cos', {
+	      opp: opportunity.desc
+	    }).then(function (response) {
+	      dispatch({
+	        type: _actiontypes.GET_COMPANIES,
+	        payload: response.data
+	      });
+	    });
 	  };
 		}
 
 /***/ },
-/* 265 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(266);
+	module.exports = __webpack_require__(271);
 
 /***/ },
-/* 266 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var defaults = __webpack_require__(267);
-	var utils = __webpack_require__(268);
-	var dispatchRequest = __webpack_require__(270);
-	var InterceptorManager = __webpack_require__(279);
-	var isAbsoluteURL = __webpack_require__(280);
-	var combineURLs = __webpack_require__(281);
-	var bind = __webpack_require__(282);
-	var transformData = __webpack_require__(274);
+	var defaults = __webpack_require__(272);
+	var utils = __webpack_require__(273);
+	var dispatchRequest = __webpack_require__(275);
+	var InterceptorManager = __webpack_require__(284);
+	var isAbsoluteURL = __webpack_require__(285);
+	var combineURLs = __webpack_require__(286);
+	var bind = __webpack_require__(287);
+	var transformData = __webpack_require__(279);
 
 	function Axios(defaultConfig) {
 	  this.defaults = utils.merge({}, defaultConfig);
@@ -29178,7 +29449,7 @@
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(283);
+	axios.spread = __webpack_require__(288);
 
 	// Provide aliases for supported request methods
 	utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
@@ -29206,13 +29477,13 @@
 
 
 /***/ },
-/* 267 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(268);
-	var normalizeHeaderName = __webpack_require__(269);
+	var utils = __webpack_require__(273);
+	var normalizeHeaderName = __webpack_require__(274);
 
 	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 	var DEFAULT_CONTENT_TYPE = {
@@ -29284,7 +29555,7 @@
 
 
 /***/ },
-/* 268 */
+/* 273 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -29567,12 +29838,12 @@
 
 
 /***/ },
-/* 269 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(268);
+	var utils = __webpack_require__(273);
 
 	module.exports = function normalizeHeaderName(headers, normalizedName) {
 	  utils.forEach(headers, function processHeader(value, name) {
@@ -29585,7 +29856,7 @@
 
 
 /***/ },
-/* 270 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -29607,10 +29878,10 @@
 	        adapter = config.adapter;
 	      } else if (typeof XMLHttpRequest !== 'undefined') {
 	        // For browsers use XHR adapter
-	        adapter = __webpack_require__(271);
+	        adapter = __webpack_require__(276);
 	      } else if (typeof process !== 'undefined') {
 	        // For node use HTTP adapter
-	        adapter = __webpack_require__(271);
+	        adapter = __webpack_require__(276);
 	      }
 
 	      if (typeof adapter === 'function') {
@@ -29626,18 +29897,18 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 271 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var utils = __webpack_require__(268);
-	var buildURL = __webpack_require__(272);
-	var parseHeaders = __webpack_require__(273);
-	var transformData = __webpack_require__(274);
-	var isURLSameOrigin = __webpack_require__(275);
-	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(276);
-	var settle = __webpack_require__(277);
+	var utils = __webpack_require__(273);
+	var buildURL = __webpack_require__(277);
+	var parseHeaders = __webpack_require__(278);
+	var transformData = __webpack_require__(279);
+	var isURLSameOrigin = __webpack_require__(280);
+	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(281);
+	var settle = __webpack_require__(282);
 
 	module.exports = function xhrAdapter(resolve, reject, config) {
 	  var requestData = config.data;
@@ -29734,7 +30005,7 @@
 	  // This is only done if running in a standard browser environment.
 	  // Specifically not if we're in a web worker, or react-native.
 	  if (utils.isStandardBrowserEnv()) {
-	    var cookies = __webpack_require__(278);
+	    var cookies = __webpack_require__(283);
 
 	    // Add xsrf header
 	    var xsrfValue = config.withCredentials || isURLSameOrigin(config.url) ?
@@ -29795,12 +30066,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 272 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(268);
+	var utils = __webpack_require__(273);
 
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -29869,12 +30140,12 @@
 
 
 /***/ },
-/* 273 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(268);
+	var utils = __webpack_require__(273);
 
 	/**
 	 * Parse headers into an object
@@ -29912,12 +30183,12 @@
 
 
 /***/ },
-/* 274 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(268);
+	var utils = __webpack_require__(273);
 
 	/**
 	 * Transform the data for a request or a response
@@ -29938,12 +30209,12 @@
 
 
 /***/ },
-/* 275 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(268);
+	var utils = __webpack_require__(273);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -30012,7 +30283,7 @@
 
 
 /***/ },
-/* 276 */
+/* 281 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30054,7 +30325,7 @@
 
 
 /***/ },
-/* 277 */
+/* 282 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30078,12 +30349,12 @@
 
 
 /***/ },
-/* 278 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(268);
+	var utils = __webpack_require__(273);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -30137,12 +30408,12 @@
 
 
 /***/ },
-/* 279 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(268);
+	var utils = __webpack_require__(273);
 
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -30195,7 +30466,7 @@
 
 
 /***/ },
-/* 280 */
+/* 285 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30215,7 +30486,7 @@
 
 
 /***/ },
-/* 281 */
+/* 286 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30233,7 +30504,7 @@
 
 
 /***/ },
-/* 282 */
+/* 287 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30250,7 +30521,7 @@
 
 
 /***/ },
-/* 283 */
+/* 288 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30283,163 +30554,7 @@
 
 
 /***/ },
-/* 284 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	exports.default = function () {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? { all: [], currentCompany: null } : arguments[0];
-	  var action = arguments[1];
-
-
-	  switch (action.type) {
-	    case _actions.GET_COMPANIES:
-	      return _extends({}, state, { all: action.payload.sort(sortCompanies) });
-	    case _actions.GET_COMPANY:
-	      return _extends({}, state, { currentCompany: action.payload });
-	  }
-
-	  return state;
-	};
-
-	var _actions = __webpack_require__(264);
-
-	// when we change company, get it's opportunities
-
-
-	function sortCompanies(a, b) {
-	  var nameA = a.name.toLocaleLowerCase();
-	  var nameB = b.name.toLocaleLowerCase();
-
-	  if (nameA < nameB) return -1;
-	  if (nameA > nameB) return 1;
-	  return 0;
-	}
-
-/***/ },
-/* 285 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRedux = __webpack_require__(234);
-
-	var _reactRouter = __webpack_require__(172);
-
-	var _actions = __webpack_require__(264);
-
-	var _stripeylist = __webpack_require__(286);
-
-	var _company = __webpack_require__(288);
-
-	var _opportunity = __webpack_require__(289);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Scrape = function (_Component) {
-	  _inherits(Scrape, _Component);
-
-	  function Scrape() {
-	    _classCallCheck(this, Scrape);
-
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Scrape).apply(this, arguments));
-	  }
-
-	  _createClass(Scrape, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      this.props.getCompanies();
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col' },
-	          _react2.default.createElement(
-	            'h2',
-	            { className: 'heading-medium' },
-	            'Companies'
-	          ),
-	          _react2.default.createElement(_stripeylist.StripeyList, { items: this.props.companies.all, selectItem: this.props.setCurrentCompany })
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col' },
-	          this.props.companies.currentCompany && _react2.default.createElement(
-	            'div',
-	            null,
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'col__section col__section--dark' },
-	              _react2.default.createElement(_company.Company, { company: this.props.companies.currentCompany })
-	            ),
-	            _react2.default.createElement(
-	              'h3',
-	              { className: 'heading-small col__section col__section--heading' },
-	              'Opportunities'
-	            ),
-	            _react2.default.createElement(_stripeylist.StripeyList, {
-	              items: this.props.opportunities.all,
-	              selectItem: this.props.setCurrentOpportunity,
-	              cell: _stripeylist.ScoreCell
-	            })
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col' },
-	          this.props.opportunities.currentOpportunity && _react2.default.createElement(
-	            'div',
-	            { className: 'col__section col__section--dark' },
-	            _react2.default.createElement(_opportunity.Opportunity, { opportunity: this.props.opportunities.currentOpportunity })
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return Scrape;
-	}(_react.Component);
-
-	function mapStateToProps(_ref) {
-	  var companies = _ref.companies;
-	  var opportunities = _ref.opportunities;
-
-	  return { companies: companies, opportunities: opportunities };
-	}
-
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, { getCompanies: _actions.getCompanies, setCurrentCompany: _actions.setCurrentCompany, setCurrentOpportunity: _actions.setCurrentOpportunity })(Scrape);
-
-/***/ },
-/* 286 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30459,7 +30574,7 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _utils = __webpack_require__(287);
+	var _utils = __webpack_require__(290);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30493,7 +30608,7 @@
 	    value: function render() {
 	      var _this2 = this;
 
-	      if (this.props.items.length === 0) {
+	      if (!this.props.items || this.props.items.length === 0) {
 	        return _react2.default.createElement(
 	          'p',
 	          null,
@@ -30570,7 +30685,7 @@
 		};
 
 /***/ },
-/* 287 */
+/* 290 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -30583,7 +30698,7 @@
 	};
 
 /***/ },
-/* 288 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30601,15 +30716,18 @@
 
 	var _reactRouter = __webpack_require__(172);
 
+	var _badge = __webpack_require__(292);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Company = exports.Company = function Company(props) {
 	  return _react2.default.createElement(
 	    'div',
 	    null,
+	    props.company.score && _react2.default.createElement(_badge.Badge, { value: props.company.score }),
 	    _react2.default.createElement(
-	      'h3',
-	      { className: 'heading-medium' },
+	      'h2',
+	      { className: 'heading heading-medium' },
 	      props.company.name
 	    ),
 	    _react2.default.createElement(
@@ -30626,56 +30744,7 @@
 		};
 
 /***/ },
-/* 289 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.Opportunity = undefined;
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRedux = __webpack_require__(234);
-
-	var _reactRouter = __webpack_require__(172);
-
-	var _badge = __webpack_require__(290);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function createDetailMarkup(text) {
-	  var markup = text.replace(/(?:\r\n|\r|\n)/g, '</p><p>');
-	  return { __html: '<p>' + markup + '</p>' };
-	}
-
-	var Opportunity = exports.Opportunity = function Opportunity(props) {
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'opportunity--detail' },
-	    _react2.default.createElement(_badge.Badge, { value: props.opportunity.score }),
-	    _react2.default.createElement(
-	      'h2',
-	      { className: 'heading-medium' },
-	      'Opportunity'
-	    ),
-	    _react2.default.createElement('div', {
-	      className: 'opportunity-detail',
-	      dangerouslySetInnerHTML: createDetailMarkup(props.opportunity.desc)
-	    })
-	  );
-	};
-
-	Opportunity.propTypes = {
-	  opportunity: _react2.default.PropTypes.object
-		};
-
-/***/ },
-/* 290 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30693,7 +30762,7 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _utils = __webpack_require__(287);
+	var _utils = __webpack_require__(290);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30714,6 +30783,224 @@
 	Badge.propTypes = {
 	  value: _react2.default.PropTypes.number
 		};
+
+/***/ },
+/* 293 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.Opportunity = undefined;
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(234);
+
+	var _reactRouter = __webpack_require__(172);
+
+	var _badge = __webpack_require__(292);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function createDetailMarkup(text) {
+	  var markup = text.replace(/(?:\r\n|\r|\n)/g, '</p><p>');
+	  return { __html: '<p>' + markup + '</p>' };
+	}
+
+	var Opportunity = exports.Opportunity = function Opportunity(props) {
+
+	  if (!props.opportunity) {
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      'No Opportunity'
+	    );
+	  }
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'opportunity--detail' },
+	    props.opportunity.score && _react2.default.createElement(_badge.Badge, { value: props.opportunity.score }),
+	    _react2.default.createElement(
+	      'h2',
+	      { className: 'heading heading-medium' },
+	      'Opportunity'
+	    ),
+	    _react2.default.createElement('div', {
+	      className: 'opportunity-detail',
+	      dangerouslySetInnerHTML: createDetailMarkup(props.opportunity.desc)
+	    })
+	  );
+	};
+
+	Opportunity.propTypes = {
+	  opportunity: _react2.default.PropTypes.object
+		};
+
+/***/ },
+/* 294 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(234);
+
+	var _reactRouter = __webpack_require__(172);
+
+	var _opportunitylistactions = __webpack_require__(295);
+
+	var _stripeylist = __webpack_require__(289);
+
+	var _company = __webpack_require__(291);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var OpportunityList = function (_Component) {
+	  _inherits(OpportunityList, _Component);
+
+	  function OpportunityList() {
+	    _classCallCheck(this, OpportunityList);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(OpportunityList).apply(this, arguments));
+	  }
+
+	  _createClass(OpportunityList, [{
+	    key: 'render',
+	    value: function render() {
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col' },
+	          _react2.default.createElement(
+	            'h2',
+	            { className: 'heading-medium' },
+	            'Opportunities'
+	          ),
+	          _react2.default.createElement(_stripeylist.StripeyList, { items: this.props.opportunities.dummyOpps, selectItem: this.props.getCompaniesForOpportunity })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col' },
+	          this.props.companies.all.length > 0 && _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(
+	              'h3',
+	              { className: 'heading-small col__section col__section--heading' },
+	              'Matching companies'
+	            ),
+	            _react2.default.createElement(_stripeylist.StripeyList, {
+	              items: this.props.companies.all,
+	              selectItem: this.props.selectCompany,
+	              cell: _stripeylist.ScoreCell
+	            })
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col' },
+	          this.props.companies.currentCompany && _react2.default.createElement(
+	            'div',
+	            { className: 'col__section col__section--dark' },
+	            _react2.default.createElement(_company.Company, { company: this.props.companies.currentCompany })
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return OpportunityList;
+	}(_react.Component);
+
+	function mapStateToProps(_ref) {
+	  var companies = _ref.companies;
+	  var opportunities = _ref.opportunities;
+
+	  return { companies: companies, opportunities: opportunities };
+	}
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, { getCompaniesForOpportunity: _opportunitylistactions.getCompaniesForOpportunity, selectCompany: _opportunitylistactions.selectCompany })(OpportunityList);
+
+/***/ },
+/* 295 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.selectCompany = selectCompany;
+	exports.getCompaniesForOpportunity = getCompaniesForOpportunity;
+
+	var _axios = __webpack_require__(270);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _actiontypes = __webpack_require__(264);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function selectCompany(company) {
+	  console.log('select company:', company);
+	  return {
+	    type: _actiontypes.GET_COMPANY,
+	    payload: company
+	  };
+	}
+
+	function getCompaniesForOpportunity(opportunity) {
+
+	  return function (dispatch) {
+	    dispatch({
+	      type: _actiontypes.GET_OPPORTUNITY,
+	      payload: opportunity
+	    });
+
+	    dispatch({
+	      type: _actiontypes.GET_COMPANIES,
+	      payload: []
+	    });
+
+	    dispatch({
+	      type: _actiontypes.GET_COMPANY,
+	      payload: null
+	    });
+
+	    _axios2.default.post('/opp-cos', {
+	      opp: opportunity.desc
+	    }).then(function (response) {
+	      dispatch({
+	        type: _actiontypes.GET_COMPANIES,
+	        payload: response.data
+	      });
+	    });
+	  };
+	}
 
 /***/ }
 /******/ ]);

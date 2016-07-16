@@ -1,4 +1,4 @@
-import { GET_COMPANIES, GET_COMPANY } from '../actions';
+import { GET_COMPANIES, GET_COMPANY } from '../actions/actiontypes';
 
 function sortCompanies(a,b) {
   const nameA = a.name.toLocaleLowerCase();
@@ -22,4 +22,4 @@ export default function(state = { all: [], currentCompany:null }, action) {
   return state;
 }
 
-// when we change company, get it's opportunities 
+// when we change company, get it's opportunities

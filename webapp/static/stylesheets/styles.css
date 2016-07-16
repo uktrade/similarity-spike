@@ -2133,10 +2133,19 @@ table tr:nth-child(even) td {
   float: left;
   height: 82vh;
   overflow-y: scroll; }
-  .col h1, .col h2, .col h3, .col h4 {
-    margin-top: 0; }
+  .col h1, .col h2, .col h3, .col h4, .col p {
+    margin-top: 0;
+    padding: 5px; }
   .col .col__section--dark {
     background: #efefef; }
+  .col .col__section {
+    position: relative; }
+    .col .col__section .heading {
+      padding-right: 75px; }
+    .col .col__section .badge {
+      top: 5px;
+      right: 20px;
+      position: absolute; }
 
 .stripey-col-list .stripey-col-list__item {
   padding: 0;
@@ -2154,10 +2163,6 @@ table tr:nth-child(even) td {
 .stripey-col-list .stripey-col-list__item--active a {
   background-color: #ffbf47; }
 
-.stripey-col-list .stripey-col-list__item--detail {
-  border-bottom: 1px solid #bfc1c3;
-  background: #efefef; }
-
 .badge {
   width: 50px;
   height: 50px;
@@ -2165,50 +2170,7 @@ table tr:nth-child(even) td {
   border-radius: 25px;
   text-align: center; }
 
-.opportunity--detail {
-  position: relative; }
-  .opportunity--detail .badge {
-    top: 5px;
-    right: 20px;
-    position: absolute; }
-
 #main {
   margin-top: 20px; }
-
-.company-list .results-list__result {
-  padding: 5px 2px;
-  cursor: pointer; }
-  .company-list .results-list__result:hover {
-    outline: 2px #fabb96; }
-  .company-list .results-list__result:nth-child(odd) {
-    background: #efefef; }
-
-.col {
-  box-sizing: border-box;
-  width: 33%;
-  border-right: 1px solid #6f777b;
-  display: inline-block;
-  float: left;
-  height: 82vh;
-  overflow-y: scroll; }
-
-.current-company {
-  border-bottom: 1px solid #bfc1c3;
-  background: #efefef; }
-  .current-company h3 {
-    margin-top: 0; }
-
-.opportunities .opportunity {
-  border-bottom: 1px;
-  cursor: pointer; }
-  .opportunities .opportunity:nth-child(odd) {
-    background: #efefef; }
-  .opportunities .opportunity:hover {
-    outline: 2px #fabb96; }
-
-.col h2,
-.col h3,
-.col p {
-  padding: 5px; }
 
 /*# sourceMappingURL=styles.css.map */

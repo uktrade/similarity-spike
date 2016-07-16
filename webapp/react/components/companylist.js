@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { getCompanies, setCurrentCompany, setCurrentOpportunity } from '../actions';
+import { getCompanies, setCurrentCompany, setCurrentOpportunity } from '../actions/companylistactions';
 import { StripeyList, ScoreCell } from './stripeylist';
 import { Company } from './company';
 import { Opportunity } from './opportunity';
 
 
 
-class Scrape extends Component {
+class CompanyList extends Component {
 
   componentWillMount() {
     this.props.getCompanies();
@@ -54,4 +54,4 @@ function mapStateToProps({ companies, opportunities }) {
   return { companies, opportunities };
 }
 
-export default connect(mapStateToProps, { getCompanies, setCurrentCompany, setCurrentOpportunity })(Scrape);
+export default connect(mapStateToProps, { getCompanies, setCurrentCompany, setCurrentOpportunity })(CompanyList);

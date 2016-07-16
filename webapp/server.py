@@ -17,7 +17,11 @@ cos.update(_unpickle('bduk.pickle'))
 
 
 @app.route("/")
-def index():
+def companyIndex():
+    return render_template('index.html', asset_path='/')
+
+@app.route("/opportunities")
+def opportunityIndex():
     return render_template('index.html', asset_path='/')
 
 @app.route("/company/<company_name>")

@@ -1,9 +1,6 @@
 import axios from 'axios';
 
-export const GET_OPPORTUNITIES = 'GET_OPPORTUNITIES';
-export const GET_OPPORTUNITY = 'GET_OPPORTUNITY';
-export const GET_COMPANY = 'GET_COMPANY';
-export const GET_COMPANIES = 'GET_COMPANIES';
+import { GET_COMPANIES, GET_OPPORTUNITIES, GET_COMPANY, GET_OPPORTUNITY } from './actiontypes';
 
 let companies = [];
 
@@ -28,6 +25,11 @@ export function setCurrentCompany(company) {
     });
 
     dispatch({
+      type: GET_OPPORTUNITY,
+      payload: null
+    });
+    
+    dispatch({
       type: GET_COMPANY,
       payload: company
     });
@@ -49,4 +51,27 @@ export function setCurrentOpportunity(opportunity) {
     type: GET_OPPORTUNITY,
     payload: opportunity
   }
+}
+
+export function getCompaniesForOpportunity(opportunity) {
+
+  return function(dispatch) {
+    dispatch({
+      type: GET_OPPORTUNITY,
+      payload: opportunity
+    });
+
+    axios.post('/opp-cos', {
+      opp: opportunity.desc
+    })
+    .then((response) => {
+      dispatch({
+        type: GET_COMPANIES,
+        payload: response.data
+      });
+    });
+
+
+  }
+
 }
