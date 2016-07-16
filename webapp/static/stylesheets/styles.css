@@ -2170,7 +2170,59 @@ table tr:nth-child(even) td {
   border-radius: 25px;
   text-align: center; }
 
+.similarity-searchbar {
+  margin: 0 0 10px 0;
+  padding: 5px;
+  background: #efefef;
+  border-bottom: 2px solid #000; }
+  .similarity-searchbar .similarity-searchbar__input-wrapper {
+    position: relative;
+    background: #fff; }
+  .similarity-searchbar .similarity-searchbar__label {
+    font-family: "nta", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.25;
+    font-weight: 400;
+    text-transform: none;
+    font-size-adjust: 0.5;
+    display: block;
+    color: #6f777b; }
+    @media (min-width: 641px) {
+      .similarity-searchbar .similarity-searchbar__label {
+        font-size: 19px;
+        line-height: 1.31579; } }
+  .similarity-searchbar .similarity-searchbar__input {
+    box-sizing: border-box;
+    font-size: 1em;
+    width: 100%;
+    padding: 0 15px;
+    margin: 0;
+    z-index: 3;
+    background: transparent;
+    position: relative;
+    border-right: 0;
+    line-height: 34px;
+    border-radius: 0;
+    -webkit-appearance: none;
+    text-overflow: ellipsis; }
+  .similarity-searchbar .similarity-searchbar__submit {
+    position: absolute;
+    z-index: 4;
+    right: 0;
+    top: 0;
+    width: 50px;
+    height: 100%;
+    border: 0;
+    text-indent: -5000px;
+    color: #fff;
+    cursor: pointer;
+    background: #005ea5 url("/images/search-button.png") no-repeat 8px 50%;
+    border-radius: 0; }
+
 #main {
   margin-top: 20px; }
+
+.col .term-label {
+  color: #222222; }
 
 /*# sourceMappingURL=styles.css.map */

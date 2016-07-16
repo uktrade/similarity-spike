@@ -2,13 +2,10 @@ import axios from 'axios';
 
 import { GET_COMPANIES, GET_OPPORTUNITIES, GET_COMPANY, GET_OPPORTUNITY } from './actiontypes';
 
-let companies = [];
-
 export function getCompanies() {
   return function(dispatch) {
     axios.get('/cos')
       .then((response) => {
-        companies = response.data;
         dispatch({
           type: GET_COMPANIES,
           payload: response.data
@@ -28,7 +25,7 @@ export function setCurrentCompany(company) {
       type: GET_OPPORTUNITY,
       payload: null
     });
-    
+
     dispatch({
       type: GET_COMPANY,
       payload: company
@@ -51,27 +48,4 @@ export function setCurrentOpportunity(opportunity) {
     type: GET_OPPORTUNITY,
     payload: opportunity
   }
-}
-
-export function getCompaniesForOpportunity(opportunity) {
-
-  return function(dispatch) {
-    dispatch({
-      type: GET_OPPORTUNITY,
-      payload: opportunity
-    });
-
-    axios.post('/opp-cos', {
-      opp: opportunity.desc
-    })
-    .then((response) => {
-      dispatch({
-        type: GET_COMPANIES,
-        payload: response.data
-      });
-    });
-
-
-  }
-
 }

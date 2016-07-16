@@ -28983,7 +28983,7 @@
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	exports.default = function () {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? { all: [], currentOpportunity: null, dummyOpps: dummyOpps } : arguments[0];
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? { all: [], selected: null } : arguments[0];
 	  var action = arguments[1];
 
 
@@ -28991,24 +28991,13 @@
 	    case _actiontypes.GET_OPPORTUNITIES:
 	      return _extends({}, state, { all: action.payload });
 	    case _actiontypes.GET_OPPORTUNITY:
-	      return _extends({}, state, { currentOpportunity: action.payload });
+	      return _extends({}, state, { selected: action.payload });
 	  }
 
 	  return state;
 	};
 
-	var _actiontypes = __webpack_require__(264);
-
-	var dummyOpps = [{
-	  name: 'Accessories of all descriptions for coffee are required by expert coffee distributor',
-	  desc: "<p>Coffee and tea are a large part of Czech culture. One of the country's coffee and tea distributors is looking for coffee drinking accessories from the United Kingdom.</p>" + "<p>The accessories should make the coffee drinking experience more convenient and more enjoyable. Innovative contraptions and everyday necessities are welcome. Attractive products, giving a certain zest to the coffee drinking and production process will be well received, but also those of a bland and practical nature.</p>" + "<p>The distributor welcomes all ideas and is keen to see what the UK can offer in this area.</p>" + "<p>For more information register below</p>"
-	}, {
-	  name: 'A Polish wholesaler is looking for British suppliers of building equipment, tools and accessories',
-	  desc: "The company associates wholesalers and distributors across the country and is an expert in traditional trade. It specializes in building sector and offers a few thousands of building products, such as building chemicals, materials, tools and DIY goods. The scope of products is very wide, from low-cost goods available on a mass scale to high end products. They are looking for long-term cooperation and want to be an exclusive distributor for a British supplier of chemicals, tools, accessories and other equipment used in building sector."
-	}, {
-	  name: 'Invitation for bids for construction works on a hospital',
-	  desc: "The Government of Lebanon represented by the Council for Development and Reconstruction (CDR) invites sealed bids from eligible Bidders for the construction and completion of the following works:</p>" + "<p>Tyre Governmental Hospital - South Lebanon. " + "The time allocated for the total completion of the project shall be 24 months." + "The extend of the works shall include but not limited to:</p>" + "<ul><li>Architectural works</li>" + "<li>Structural works</li>" + "<li>Electrical works - Low and extra low voltage</li>" + "<li>Mechanical works- Drainage water supply, fire fighting, irrigation and medical gazes</li>" + "<li>Heating, ventilation and air conditioning: piping and ducting</li>" + "<p>Bidders may contact UKTI team in Lebanon below to have further information about the project."
-		}];
+		var _actiontypes = __webpack_require__(264);
 
 /***/ },
 /* 264 */
@@ -29037,33 +29026,21 @@
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	exports.default = function () {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? { all: [], currentCompany: null } : arguments[0];
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? { all: [], selected: null } : arguments[0];
 	  var action = arguments[1];
 
 
 	  switch (action.type) {
 	    case _actiontypes.GET_COMPANIES:
-	      return _extends({}, state, { all: action.payload.sort(sortCompanies) });
+	      return _extends({}, state, { all: action.payload });
 	    case _actiontypes.GET_COMPANY:
-	      return _extends({}, state, { currentCompany: action.payload });
+	      return _extends({}, state, { selected: action.payload });
 	  }
 
 	  return state;
 	};
 
-	var _actiontypes = __webpack_require__(264);
-
-	// when we change company, get it's opportunities
-
-
-	function sortCompanies(a, b) {
-	  var nameA = a.name.toLocaleLowerCase();
-	  var nameB = b.name.toLocaleLowerCase();
-
-	  if (nameA < nameB) return -1;
-	  if (nameA > nameB) return 1;
-	  return 0;
-	}
+		var _actiontypes = __webpack_require__(264);
 
 /***/ },
 /* 266 */
@@ -29164,6 +29141,8 @@
 
 	var _opportunity = __webpack_require__(293);
 
+	var _utils = __webpack_require__(290);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29201,18 +29180,18 @@
 	            { className: 'heading-medium' },
 	            'Companies'
 	          ),
-	          _react2.default.createElement(_stripeylist.StripeyList, { items: this.props.companies.all, selectItem: this.props.setCurrentCompany })
+	          _react2.default.createElement(_stripeylist.StripeyList, { items: this.props.companies, selectItem: this.props.setCurrentCompany, sort: _utils.sortCompanies })
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'col' },
-	          this.props.companies.currentCompany && _react2.default.createElement(
+	          this.props.companies.selected && _react2.default.createElement(
 	            'div',
 	            null,
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'col__section col__section--dark' },
-	              _react2.default.createElement(_company.Company, { company: this.props.companies.currentCompany })
+	              _react2.default.createElement(_company.Company, { company: this.props.companies.selected })
 	            ),
 	            _react2.default.createElement(
 	              'h3',
@@ -29220,7 +29199,7 @@
 	              'Opportunities'
 	            ),
 	            _react2.default.createElement(_stripeylist.StripeyList, {
-	              items: this.props.opportunities.all,
+	              items: this.props.opportunities,
 	              selectItem: this.props.setCurrentOpportunity,
 	              cell: _stripeylist.ScoreCell
 	            })
@@ -29229,10 +29208,10 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'col' },
-	          this.props.opportunities.currentOpportunity && _react2.default.createElement(
+	          this.props.opportunities.selected && _react2.default.createElement(
 	            'div',
 	            { className: 'col__section col__section--dark' },
-	            _react2.default.createElement(_opportunity.Opportunity, { opportunity: this.props.opportunities.currentOpportunity })
+	            _react2.default.createElement(_opportunity.Opportunity, { opportunity: this.props.opportunities.selected })
 	          )
 	        )
 	      );
@@ -29241,6 +29220,15 @@
 
 	  return CompanyList;
 	}(_react.Component);
+
+	CompanyList.propTypes = {
+	  companies: _react2.default.PropTypes.object,
+	  opportunities: _react2.default.PropTypes.object,
+	  getCompanies: _react2.default.PropTypes.func,
+	  setCurrentCompany: _react2.default.PropTypes.func,
+	  setCurrentOpportunity: _react2.default.PropTypes.func
+	};
+
 
 	function mapStateToProps(_ref) {
 	  var companies = _ref.companies;
@@ -29263,7 +29251,6 @@
 	exports.getCompanies = getCompanies;
 	exports.setCurrentCompany = setCurrentCompany;
 	exports.setCurrentOpportunity = setCurrentOpportunity;
-	exports.getCompaniesForOpportunity = getCompaniesForOpportunity;
 
 	var _axios = __webpack_require__(270);
 
@@ -29273,12 +29260,9 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var companies = [];
-
 	function getCompanies() {
 	  return function (dispatch) {
 	    _axios2.default.get('/cos').then(function (response) {
-	      companies = response.data;
 	      dispatch({
 	        type: _actiontypes.GET_COMPANIES,
 	        payload: response.data
@@ -29319,25 +29303,6 @@
 	  return {
 	    type: _actiontypes.GET_OPPORTUNITY,
 	    payload: opportunity
-	  };
-	}
-
-	function getCompaniesForOpportunity(opportunity) {
-
-	  return function (dispatch) {
-	    dispatch({
-	      type: _actiontypes.GET_OPPORTUNITY,
-	      payload: opportunity
-	    });
-
-	    _axios2.default.post('/opp-cos', {
-	      opp: opportunity.desc
-	    }).then(function (response) {
-	      dispatch({
-	        type: _actiontypes.GET_COMPANIES,
-	        payload: response.data
-	      });
-	    });
 	  };
 		}
 
@@ -30564,8 +30529,6 @@
 	});
 	exports.PlainCell = exports.ScoreCell = exports.StripeyList = undefined;
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -30578,63 +30541,37 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var StripeyList = exports.StripeyList = function (_Component) {
-	  _inherits(StripeyList, _Component);
-
-	  function StripeyList(props) {
-	    _classCallCheck(this, StripeyList);
-
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(StripeyList).call(this, props));
-
-	    _this.selectCell = function (item) {
-	      _this.setState({ selectedItem: item });
-	      _this.props.selectItem(item);
-	    };
-
-	    _this.state = {
-	      selectedItem: null
-	    };
-	    return _this;
+	var StripeyList = exports.StripeyList = function StripeyList(props) {
+	  if (!props.items.all || props.items.all.length === 0) {
+	    return _react2.default.createElement(
+	      'p',
+	      null,
+	      '...Loading'
+	    );
 	  }
 
-	  _createClass(StripeyList, [{
-	    key: 'render',
-	    value: function render() {
-	      var _this2 = this;
+	  var items = props.sort ? props.items.all.sort(props.sort) : props.items.all;
+	  var Cell = props.cell || PlainCell;
 
-	      if (!this.props.items || this.props.items.length === 0) {
-	        return _react2.default.createElement(
-	          'p',
-	          null,
-	          '...Loading'
-	        );
-	      }
+	  var itemElements = items.map(function (item, index) {
+	    var selected = item === props.items.selected;
+	    return _react2.default.createElement(Cell, { key: index, item: item, selected: selected, selectItem: function selectItem() {
+	        return props.selectItem(item);
+	      } });
+	  });
 
-	      var Cell = this.props.cell || PlainCell;
+	  return _react2.default.createElement(
+	    'ol',
+	    { className: 'stripey-col-list' },
+	    itemElements
+	  );
+	};
 
-	      var itemElements = this.props.items.map(function (item, index) {
-	        var selected = item === _this2.state.selectedItem;
-	        return _react2.default.createElement(Cell, { key: index, item: item, selected: selected, selectItem: function selectItem() {
-	            return _this2.selectCell(item);
-	          } });
-	      });
-
-	      return _react2.default.createElement(
-	        'ol',
-	        { className: 'stripey-col-list' },
-	        itemElements
-	      );
-	    }
-	  }]);
-
-	  return StripeyList;
-	}(_react.Component);
+	StripeyList.propTypes = {
+	  items: _react2.default.PropTypes.object,
+	  sort: _react2.default.PropTypes.func,
+	  selectItem: _react2.default.PropTypes.func
+	};
 
 	var ScoreCell = exports.ScoreCell = function ScoreCell(props) {
 
@@ -30664,6 +30601,11 @@
 	  );
 	};
 
+	ScoreCell.propTypes = {
+	  selected: _react2.default.PropTypes.bool,
+	  item: _react2.default.PropTypes.object
+	};
+
 	var PlainCell = exports.PlainCell = function PlainCell(props) {
 
 	  var className = 'stripey-col-list__item';
@@ -30682,6 +30624,11 @@
 	      props.item.name
 	    )
 	  );
+	};
+
+	PlainCell.propTypes = {
+	  selected: _react2.default.PropTypes.bool,
+	  item: _react2.default.PropTypes.object
 		};
 
 /***/ },
@@ -30693,9 +30640,25 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var getScoreColour = exports.getScoreColour = function getScoreColour(score) {
+	exports.getScoreColour = getScoreColour;
+	exports.sortCompanies = sortCompanies;
+	exports.scoreSort = scoreSort;
+	function getScoreColour(score) {
 	  return "hsl(" + score * 500 + ", 100%, 50%)";
-	};
+	}
+
+	function sortCompanies(a, b) {
+	  var nameA = a.name.toLocaleLowerCase();
+	  var nameB = b.name.toLocaleLowerCase();
+
+	  if (nameA < nameB) return -1;
+	  if (nameA > nameB) return 1;
+	  return 0;
+	}
+
+	function scoreSort(a, b) {
+	  return b.score - a.score;
+	}
 
 /***/ },
 /* 291 */
@@ -30711,10 +30674,6 @@
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRedux = __webpack_require__(234);
-
-	var _reactRouter = __webpack_require__(172);
 
 	var _badge = __webpack_require__(292);
 
@@ -30807,11 +30766,6 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function createDetailMarkup(text) {
-	  var markup = text.replace(/(?:\r\n|\r|\n)/g, '</p><p>');
-	  return { __html: '<p>' + markup + '</p>' };
-	}
-
 	var Opportunity = exports.Opportunity = function Opportunity(props) {
 
 	  if (!props.opportunity) {
@@ -30820,6 +30774,11 @@
 	      null,
 	      'No Opportunity'
 	    );
+	  }
+
+	  function createDetailMarkup(text) {
+	    var markup = text.replace(/(?:\r\n|\r|\n)/g, '</p><p>');
+	    return { __html: '<p>' + markup + '</p>' };
 	  }
 
 	  return _react2.default.createElement(
@@ -30852,6 +30811,8 @@
 	  value: true
 	});
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(1);
@@ -30868,6 +30829,8 @@
 
 	var _company = __webpack_require__(291);
 
+	var _utils = __webpack_require__(290);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30879,16 +30842,44 @@
 	var OpportunityList = function (_Component) {
 	  _inherits(OpportunityList, _Component);
 
-	  function OpportunityList() {
+	  function OpportunityList(props) {
 	    _classCallCheck(this, OpportunityList);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(OpportunityList).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(OpportunityList).call(this, props));
+
+	    _this.onTermChange = function (event) {
+	      _this.setState(_extends({}, _this.state, { term: event.target.value }));
+	    };
+
+	    _this.submitForm = function (event) {
+	      event.preventDefault();
+	      _this.setState(_extends({}, _this.state, { searchedTerm: _this.state.term }));
+	      _this.props.clearSelectedOpportunity();
+	      _this.props.getCompaniesForOpportunity({
+	        desc: _this.state.term
+	      });
+	    };
+
+	    _this.getCompanies = function (opportunity) {
+	      _this.setState({ term: '', searchedTerm: '' });
+	      _this.props.getCompaniesForOpportunity(opportunity);
+	    };
+
+	    _this.state = {
+	      term: '',
+	      searchedTerm: ''
+	    };
+	    return _this;
 	  }
 
 	  _createClass(OpportunityList, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.props.getDummyOpps();
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -30896,11 +30887,33 @@
 	          'div',
 	          { className: 'col' },
 	          _react2.default.createElement(
-	            'h2',
-	            { className: 'heading-medium' },
-	            'Opportunities'
+	            'form',
+	            { className: 'similarity-searchbar', onSubmit: this.submitForm },
+	            _react2.default.createElement(
+	              'label',
+	              { className: 'similarity-searchbar__label' },
+	              'Search For Opportunities'
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'similarity-searchbar__input-wrapper' },
+	              _react2.default.createElement('input', {
+	                className: 'similarity-searchbar__input form-control',
+	                id: 'search',
+	                name: 'search',
+	                value: this.state.term,
+	                autoComplete: 'off',
+	                onChange: this.onTermChange
+	              }),
+	              _react2.default.createElement('button', { className: 'similarity-searchbar__submit', type: 'submit', value: 'Search' })
+	            )
 	          ),
-	          _react2.default.createElement(_stripeylist.StripeyList, { items: this.props.opportunities.dummyOpps, selectItem: this.props.getCompaniesForOpportunity })
+	          _react2.default.createElement(
+	            'h3',
+	            { className: 'heading-small col__section col__section--heading' },
+	            'Example opportunities'
+	          ),
+	          _react2.default.createElement(_stripeylist.StripeyList, { items: this.props.opportunities, selectItem: this.getCompanies })
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -30911,22 +30924,35 @@
 	            _react2.default.createElement(
 	              'h3',
 	              { className: 'heading-small col__section col__section--heading' },
-	              'Matching companies'
+	              'Matching companies',
+	              this.state.searchedTerm.length > 0 && _react2.default.createElement(
+	                'span',
+	                null,
+	                ' for ',
+	                _react2.default.createElement(
+	                  'span',
+	                  { className: 'term-label' },
+	                  '\'',
+	                  this.state.searchedTerm,
+	                  '\''
+	                )
+	              )
 	            ),
 	            _react2.default.createElement(_stripeylist.StripeyList, {
-	              items: this.props.companies.all,
+	              items: this.props.companies,
 	              selectItem: this.props.selectCompany,
-	              cell: _stripeylist.ScoreCell
+	              cell: _stripeylist.ScoreCell,
+	              sort: _utils.scoreSort
 	            })
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'col' },
-	          this.props.companies.currentCompany && _react2.default.createElement(
+	          this.props.companies.selected && _react2.default.createElement(
 	            'div',
 	            { className: 'col__section col__section--dark' },
-	            _react2.default.createElement(_company.Company, { company: this.props.companies.currentCompany })
+	            _react2.default.createElement(_company.Company, { company: this.props.companies.selected })
 	          )
 	        )
 	      );
@@ -30936,6 +30962,16 @@
 	  return OpportunityList;
 	}(_react.Component);
 
+	OpportunityList.propTypes = {
+	  companies: _react2.default.PropTypes.object,
+	  opportunities: _react2.default.PropTypes.object,
+	  getCompaniesForOpportunity: _react2.default.PropTypes.func,
+	  selectCompany: _react2.default.PropTypes.func,
+	  clearSelectedOpportunity: _react2.default.PropTypes.func,
+	  getDummyOpps: _react2.default.PropTypes.func
+	};
+
+
 	function mapStateToProps(_ref) {
 	  var companies = _ref.companies;
 	  var opportunities = _ref.opportunities;
@@ -30943,7 +30979,7 @@
 	  return { companies: companies, opportunities: opportunities };
 	}
 
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, { getCompaniesForOpportunity: _opportunitylistactions.getCompaniesForOpportunity, selectCompany: _opportunitylistactions.selectCompany })(OpportunityList);
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, { getCompaniesForOpportunity: _opportunitylistactions.getCompaniesForOpportunity, selectCompany: _opportunitylistactions.selectCompany, clearSelectedOpportunity: _opportunitylistactions.clearSelectedOpportunity, getDummyOpps: _opportunitylistactions.getDummyOpps })(OpportunityList);
 
 /***/ },
 /* 295 */
@@ -30955,7 +30991,9 @@
 	  value: true
 	});
 	exports.selectCompany = selectCompany;
+	exports.getDummyOpps = getDummyOpps;
 	exports.getCompaniesForOpportunity = getCompaniesForOpportunity;
+	exports.clearSelectedOpportunity = clearSelectedOpportunity;
 
 	var _axios = __webpack_require__(270);
 
@@ -30965,17 +31003,35 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var dummyOpps = [{
+	  name: 'Accessories of all descriptions for coffee are required by expert coffee distributor',
+	  desc: "<p>Coffee and tea are a large part of Czech culture. One of the country's coffee and tea distributors is looking for coffee drinking accessories from the United Kingdom.</p>" + "<p>The accessories should make the coffee drinking experience more convenient and more enjoyable. Innovative contraptions and everyday necessities are welcome. Attractive products, giving a certain zest to the coffee drinking and production process will be well received, but also those of a bland and practical nature.</p>" + "<p>The distributor welcomes all ideas and is keen to see what the UK can offer in this area.</p>" + "<p>For more information register below</p>"
+	}, {
+	  name: 'A Polish wholesaler is looking for British suppliers of building equipment, tools and accessories',
+	  desc: "The company associates wholesalers and distributors across the country and is an expert in traditional trade. It specializes in building sector and offers a few thousands of building products, such as building chemicals, materials, tools and DIY goods. The scope of products is very wide, from low-cost goods available on a mass scale to high end products. They are looking for long-term cooperation and want to be an exclusive distributor for a British supplier of chemicals, tools, accessories and other equipment used in building sector."
+	}, {
+	  name: 'Invitation for bids for construction works on a hospital',
+	  desc: "The Government of Lebanon represented by the Council for Development and Reconstruction (CDR) invites sealed bids from eligible Bidders for the construction and completion of the following works:</p>" + "<p>Tyre Governmental Hospital - South Lebanon. " + "The time allocated for the total completion of the project shall be 24 months." + "The extend of the works shall include but not limited to:</p>" + "<ul><li>Architectural works</li>" + "<li>Structural works</li>" + "<li>Electrical works - Low and extra low voltage</li>" + "<li>Mechanical works- Drainage water supply, fire fighting, irrigation and medical gazes</li>" + "<li>Heating, ventilation and air conditioning: piping and ducting</li>" + "<p>Bidders may contact UKTI team in Lebanon below to have further information about the project."
+	}];
+
 	function selectCompany(company) {
-	  console.log('select company:', company);
 	  return {
 	    type: _actiontypes.GET_COMPANY,
 	    payload: company
 	  };
 	}
 
+	function getDummyOpps() {
+	  return {
+	    type: _actiontypes.GET_OPPORTUNITIES,
+	    payload: dummyOpps
+	  };
+	}
+
 	function getCompaniesForOpportunity(opportunity) {
 
 	  return function (dispatch) {
+
 	    dispatch({
 	      type: _actiontypes.GET_OPPORTUNITY,
 	      payload: opportunity
@@ -31001,6 +31057,13 @@
 	    });
 	  };
 	}
+
+	function clearSelectedOpportunity() {
+	  return {
+	    type: _actiontypes.GET_OPPORTUNITY,
+	    payload: null
+	  };
+		}
 
 /***/ }
 /******/ ]);

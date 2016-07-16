@@ -4,20 +4,17 @@ import { Link } from 'react-router';
 import { Badge } from './badge';
 
 
-function createDetailMarkup(text) {
-  let markup = text.replace(/(?:\r\n|\r|\n)/g, '</p><p>');
-  return { __html: `<p>${markup}</p>`  };
-}
-
-
-
-
 export const Opportunity = props => {
 
   if (!props.opportunity) {
     return <div>No Opportunity</div>
   }
 
+  function createDetailMarkup(text) {
+    let markup = text.replace(/(?:\r\n|\r|\n)/g, '</p><p>');
+    return { __html: `<p>${markup}</p>`  };
+  }
+  
   return (
     <div className="opportunity--detail">
       { props.opportunity.score &&

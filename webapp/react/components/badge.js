@@ -11,7 +11,6 @@ export const Badge = props => {
     backgroundColor: scoreColour
   };
 
-
   return (
    <div className="badge badge--right" style={style}>
     {(props.value * 100).toFixed(0)}

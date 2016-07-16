@@ -4,37 +4,28 @@ import { Link } from 'react-router';
 import { getScoreColour } from '../utils';
 
 
-export class StripeyList extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedItem: null
-    }
+export const StripeyList = props => {
+  if (!props.items.all || props.items.all.length === 0) {
+    return (<p>...Loading</p>);
   }
 
-  selectCell = (item) => {
-    this.setState({ selectedItem: item });
-    this.props.selectItem(item);
-  };
+  const items = props.sort ? props.items.all.sort(props.sort) : props.items.all;
+  const Cell = props.cell || PlainCell;
 
-  render() {
+  const itemElements = items.map((item, index) => {
+    const selected = (item === props.items.selected);
+    return <Cell key={index} item={item} selected={selected} selectItem={() => props.selectItem(item)}/>;
+  });
 
-    if (!this.props.items || this.props.items.length === 0) {
-      return (<p>...Loading</p>);
-    }
+  return ( <ol className="stripey-col-list">{ itemElements }</ol>);
+};
 
-    const Cell = this.props.cell || PlainCell;
+StripeyList.propTypes = {
+  items: React.PropTypes.object,
+  sort: React.PropTypes.func,
+  selectItem: React.PropTypes.func
+};
 
-    const itemElements = this.props.items.map((item, index) => {
-      const selected = (item === this.state.selectedItem);
-      return <Cell key={index} item={item} selected={selected} selectItem={() => this.selectCell(item)}/>;
-    });
-
-    return ( <ol className="stripey-col-list">{ itemElements }</ol>);
-  }
-
-}
 
 export const ScoreCell = props => {
 
@@ -57,6 +48,12 @@ export const ScoreCell = props => {
     </li>);
 };
 
+ScoreCell.propTypes = {
+  selected: React.PropTypes.bool,
+  item: React.PropTypes.object
+};
+
+
 export const PlainCell = props => {
 
   let className = 'stripey-col-list__item';
@@ -64,9 +61,13 @@ export const PlainCell = props => {
     className += ' stripey-col-list__item--active';
   }
 
-
   return (
     <li className={ className }>
       <a onClick={() => props.selectItem(props.item)}>{ props.item.name }</a>
     </li>);
+};
+
+PlainCell.propTypes = {
+  selected: React.PropTypes.bool,
+  item: React.PropTypes.object
 };

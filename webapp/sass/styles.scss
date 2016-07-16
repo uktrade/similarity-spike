@@ -2,7 +2,12 @@ $images-dir: '/images/';
 @import 'govstrap';
 @import 'columns';
 @import 'badge';
+@import 'searchbar';
 
 #main {
   margin-top: 20px;
+}
+
+.col .term-label {
+  color: #222222;
 }
