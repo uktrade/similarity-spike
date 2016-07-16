@@ -1,9 +1,13 @@
 .similarity-searchbar {
 
-  margin: 40px 0;
+  margin: 0 0 10px 0;
+  padding: 5px;
+  background: #efefef;
+  border-bottom: 2px solid #000;
 
   .similarity-searchbar__input-wrapper {
     position: relative;
+    background: #fff;
   }
 
   .similarity-searchbar__label {
@@ -16,7 +20,7 @@
     box-sizing: border-box;
     font-size: em(19);
     width: 100%;
-    padding: 6px 15px;
+    padding: 0 15px;
     margin: 0;
     z-index: 3;
     background: transparent;
